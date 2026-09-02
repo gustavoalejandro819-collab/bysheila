@@ -37,8 +37,14 @@ const productos = [
         etiqueta: "TRENDING",
         imagen: "productos/toallas.jpeg",
         colores: [
-            { nombre: "Cremita", imagen: "productos/toallas.jpeg" },
-            { nombre: "Blanca",  imagen: "productos/toalla_blanca.jpeg" }
+            {
+                nombre: "Cremita",
+                imagen: "productos/toallas.jpeg"
+            },
+            {
+                nombre: "Blanca",
+                imagen: "productos/toalla_blanca.jpeg"
+            }
         ]
     },
 
@@ -145,19 +151,33 @@ function mostrarProductos() {
 
         tarjeta.classList.add("producto");
 
-        // Selector de color solo si el producto tiene colores
+
+        // ==================================================
+        // SELECTOR DE COLOR
+        // ==================================================
+
         const selectorColor = producto.colores
             ? `<div class="selector-colores">
+
                 ${producto.colores.map((c, i) => `
+
                     <button
+                        type="button"
                         class="btn-color ${i === 0 ? "activo" : ""}"
                         onclick="cambiarColor(${producto.id}, ${i}, this)"
                     >
                         ${c.nombre}
                     </button>
+
                 `).join("")}
+
                </div>`
             : "";
+
+
+        // ==================================================
+        // HTML DEL PRODUCTO
+        // ==================================================
 
         tarjeta.innerHTML = `
 
@@ -192,6 +212,7 @@ function mostrarProductos() {
                 </strong>
 
                 <button
+                    type="button"
                     class="agregar"
                     onclick="agregarCarrito(${producto.id})"
                 >
@@ -210,7 +231,7 @@ function mostrarProductos() {
 
 
 // ======================================================
-// CAMBIAR COLOR (TOALLAS)
+// CAMBIAR COLOR
 // ======================================================
 
 function cambiarColor(productoId, colorIndex, boton) {
@@ -218,30 +239,56 @@ function cambiarColor(productoId, colorIndex, boton) {
     const producto =
         productos.find(p => p.id === productoId);
 
-    if (!producto || !producto.colores) return;
+    if (!producto || !producto.colores) {
+        return;
+    }
 
-    // Actualizar imagen
+
+    // ==================================================
+    // ACTUALIZAR IMAGEN
+    // ==================================================
+
     const img =
         document.getElementById(
             "img-producto-" + productoId
         );
 
     if (img) {
-        img.src = producto.colores[colorIndex].imagen;
+
+        img.src =
+            producto.colores[colorIndex].imagen;
+
     }
 
-    // Guardar color seleccionado en el objeto del producto
+
+    // ==================================================
+    // GUARDAR COLOR SELECCIONADO
+    // ==================================================
+
     producto.colorSeleccionado =
         producto.colores[colorIndex].nombre;
 
-    // Resaltar botón activo
-    const contenedor = boton.closest(".selector-colores");
 
-    contenedor
-        .querySelectorAll(".btn-color")
-        .forEach(b => b.classList.remove("activo"));
+    // ==================================================
+    // MARCAR BOTÓN ACTIVO
+    // ==================================================
 
-    boton.classList.add("activo");
+    const contenedor =
+        boton.closest(".selector-colores");
+
+    if (contenedor) {
+
+        contenedor
+            .querySelectorAll(".btn-color")
+            .forEach(b => {
+
+                b.classList.remove("activo");
+
+            });
+
+        boton.classList.add("activo");
+
+    }
 
 }
 
@@ -255,34 +302,77 @@ function agregarCarrito(id) {
     const producto =
         productos.find(p => p.id === id);
 
-    if (!producto) return;
+    if (!producto) {
+        return;
+    }
 
-    // Si tiene colores y no eligió, usar el primero por defecto
+
+    // ==================================================
+    // COLOR
+    // ==================================================
+
     const colorElegido = producto.colores
-        ? (producto.colorSeleccionado || producto.colores[0].nombre)
+        ? (
+            producto.colorSeleccionado ||
+            producto.colores[0].nombre
+        )
         : null;
+
+
+    // ==================================================
+    // CLAVE ÚNICA
+    // ==================================================
 
     const clave = colorElegido
         ? id + "-" + colorElegido
-        : id;
+        : String(id);
+
+
+    // ==================================================
+    // BUSCAR PRODUCTO EXISTENTE
+    // ==================================================
 
     const productoExistente =
-        carrito.find(item => item.clave === clave);
+        carrito.find(
+            item => String(item.clave) === String(clave)
+        );
+
+
+    // ==================================================
+    // SI YA EXISTE → SUMAR 1
+    // ==================================================
 
     if (productoExistente) {
 
-        productoExistente.cantidad++;
+        productoExistente.cantidad += 1;
 
-    } else {
+    }
+
+
+    // ==================================================
+    // SI NO EXISTE → AGREGAR CON CANTIDAD 1
+    // ==================================================
+
+    else {
 
         carrito.push({
-            clave:  clave,
-            id:     id,
-            color:  colorElegido,
+
+            clave: clave,
+
+            id: id,
+
+            color: colorElegido,
+
             cantidad: 1
+
         });
 
     }
+
+
+    // ==================================================
+    // ACTUALIZAR
+    // ==================================================
 
     guardarCarrito();
 
@@ -301,19 +391,46 @@ function agregarCarrito(id) {
 
 function cambiarCantidad(clave, cambio) {
 
-    const item =
-        carrito.find(i => i.clave === clave);
+    // Buscar el producto usando la clave
+    // como texto para evitar problemas
+    // entre números y strings.
 
-    if (!item) return;
+    const item =
+        carrito.find(
+            i => String(i.clave) === String(clave)
+        );
+
+
+    // Si no existe, salir
+    if (!item) {
+        return;
+    }
+
+
+    // ==================================================
+    // SUMAR O RESTAR
+    // ==================================================
 
     item.cantidad += cambio;
+
+
+    // ==================================================
+    // SI LLEGA A 0 → ELIMINAR
+    // ==================================================
 
     if (item.cantidad <= 0) {
 
         carrito =
-            carrito.filter(i => i.clave !== clave);
+            carrito.filter(
+                i => String(i.clave) !== String(clave)
+            );
 
     }
+
+
+    // ==================================================
+    // GUARDAR Y ACTUALIZAR
+    // ==================================================
 
     guardarCarrito();
 
@@ -329,11 +446,19 @@ function cambiarCantidad(clave, cambio) {
 function eliminarProducto(clave) {
 
     carrito =
-        carrito.filter(i => i.clave !== clave);
+        carrito.filter(
+            item =>
+                String(item.clave) !== String(clave)
+        );
+
 
     guardarCarrito();
 
     mostrarCarrito();
+
+    mostrarToast(
+        "Producto eliminado del carrito"
+    );
 
 }
 
@@ -348,9 +473,13 @@ function calcularTotal() {
         (total, item) => {
 
             const producto =
-                productos.find(p => p.id === item.id);
+                productos.find(
+                    p => p.id === item.id
+                );
 
-            if (!producto) return total;
+            if (!producto) {
+                return total;
+            }
 
             return total +
                 producto.precio * item.cantidad;
@@ -369,7 +498,8 @@ function calcularTotal() {
 function calcularCantidad() {
 
     return carrito.reduce(
-        (total, item) => total + item.cantidad,
+        (total, item) =>
+            total + item.cantidad,
         0
     );
 
@@ -390,13 +520,25 @@ function mostrarCarrito() {
         return;
     }
 
+
+    // ==================================================
+    // LIMPIAR CARRITO
+    // ==================================================
+
     itemsCarrito.innerHTML = "";
+
+
+    // ==================================================
+    // ACTUALIZAR CANTIDAD Y TOTAL
+    // ==================================================
 
     cantidadCarrito.textContent =
         calcularCantidad();
 
     totalCarrito.textContent =
-        formatoPrecio(calcularTotal());
+        formatoPrecio(
+            calcularTotal()
+        );
 
 
     // ==================================================
@@ -406,14 +548,23 @@ function mostrarCarrito() {
     if (carrito.length === 0) {
 
         if (carritoVacio) {
-            carritoVacio.classList.add("visible");
+
+            carritoVacio.classList.add(
+                "visible"
+            );
+
         }
 
+
         const footer =
-            document.querySelector(".carrito-footer");
+            document.querySelector(
+                ".carrito-footer"
+            );
 
         if (footer) {
+
             footer.style.display = "none";
+
         }
 
         return;
@@ -425,42 +576,85 @@ function mostrarCarrito() {
     // ==================================================
 
     if (carritoVacio) {
-        carritoVacio.classList.remove("visible");
+
+        carritoVacio.classList.remove(
+            "visible"
+        );
+
     }
+
 
     const footer =
-        document.querySelector(".carrito-footer");
+        document.querySelector(
+            ".carrito-footer"
+        );
 
     if (footer) {
+
         footer.style.display = "block";
+
     }
 
+
+    // ==================================================
+    // MOSTRAR CADA PRODUCTO
+    // ==================================================
 
     carrito.forEach(item => {
 
         const producto =
-            productos.find(p => p.id === item.id);
+            productos.find(
+                p => p.id === item.id
+            );
 
-        if (!producto) return;
+        if (!producto) {
+            return;
+        }
 
-        // Imagen según color elegido
-        let imgSrc = producto.imagen;
 
-        if (item.color && producto.colores) {
+        // ==================================================
+        // IMAGEN SEGÚN COLOR
+        // ==================================================
+
+        let imgSrc =
+            producto.imagen;
+
+
+        if (
+            item.color &&
+            producto.colores
+        ) {
 
             const colorData =
                 producto.colores.find(
                     c => c.nombre === item.color
                 );
 
-            if (colorData) imgSrc = colorData.imagen;
+            if (colorData) {
+
+                imgSrc =
+                    colorData.imagen;
+
+            }
 
         }
+
+
+        // ==================================================
+        // CREAR ELEMENTO
+        // ==================================================
 
         const elemento =
             document.createElement("div");
 
-        elemento.classList.add("item-carrito");
+        elemento.classList.add(
+            "item-carrito"
+        );
+
+
+        // ==================================================
+        // HTML DEL ITEM
+        // ==================================================
 
         elemento.innerHTML = `
 
@@ -472,29 +666,58 @@ function mostrarCarrito() {
             <div>
 
                 <h4>
+
                     ${producto.nombre}
-                    ${item.color
-                        ? `<small style="font-weight:normal;color:#888"> — ${item.color}</small>`
-                        : ""}
+
+                    ${
+                        item.color
+                            ? `
+                                <small
+                                    style="
+                                        font-weight:normal;
+                                        color:#888
+                                    "
+                                >
+                                    — ${item.color}
+                                </small>
+                              `
+                            : ""
+                    }
+
                 </h4>
 
                 <p>
                     ${formatoPrecio(producto.precio)} c/u
                 </p>
 
+
+                <!-- =====================================
+                     CONTROLES DE CANTIDAD
+                     ===================================== -->
+
                 <div class="controles">
 
+                    <!-- RESTAR 1 -->
+
                     <button
+                        type="button"
                         onclick="cambiarCantidad('${item.clave}', -1)"
                     >
                         −
                     </button>
 
+
+                    <!-- CANTIDAD ACTUAL -->
+
                     <strong>
                         ${item.cantidad}
                     </strong>
 
+
+                    <!-- SUMAR 1 -->
+
                     <button
+                        type="button"
                         onclick="cambiarCantidad('${item.clave}', 1)"
                     >
                         +
@@ -502,7 +725,13 @@ function mostrarCarrito() {
 
                 </div>
 
+
+                <!-- =====================================
+                     ELIMINAR PRODUCTO
+                     ===================================== -->
+
                 <button
+                    type="button"
                     class="eliminar"
                     onclick="eliminarProducto('${item.clave}')"
                 >
@@ -511,13 +740,26 @@ function mostrarCarrito() {
 
             </div>
 
+
+            <!-- =========================================
+                 SUBTOTAL
+                 ========================================= -->
+
             <strong>
-                ${formatoPrecio(producto.precio * item.cantidad)}
+
+                ${formatoPrecio(
+                    producto.precio *
+                    item.cantidad
+                )}
+
             </strong>
 
         `;
 
-        itemsCarrito.appendChild(elemento);
+
+        itemsCarrito.appendChild(
+            elemento
+        );
 
     });
 
@@ -543,16 +785,35 @@ function guardarCarrito() {
 // ======================================================
 
 const abrirCarrito =
-    document.getElementById("abrirCarrito");
+    document.getElementById(
+        "abrirCarrito"
+    );
+
 
 if (abrirCarrito) {
 
-    abrirCarrito.addEventListener("click", () => {
+    abrirCarrito.addEventListener(
+        "click",
+        () => {
 
-        carritoElement.classList.add("activo");
-        overlay.classList.add("activo");
+            if (carritoElement) {
 
-    });
+                carritoElement.classList.add(
+                    "activo"
+                );
+
+            }
+
+            if (overlay) {
+
+                overlay.classList.add(
+                    "activo"
+                );
+
+            }
+
+        }
+    );
 
 }
 
@@ -564,24 +825,47 @@ if (abrirCarrito) {
 function cerrarCarrito() {
 
     if (carritoElement) {
-        carritoElement.classList.remove("activo");
+
+        carritoElement.classList.remove(
+            "activo"
+        );
+
     }
 
     if (overlay) {
-        overlay.classList.remove("activo");
+
+        overlay.classList.remove(
+            "activo"
+        );
+
     }
 
 }
 
+
 const cerrarCarritoBtn =
-    document.getElementById("cerrarCarrito");
+    document.getElementById(
+        "cerrarCarrito"
+    );
+
 
 if (cerrarCarritoBtn) {
-    cerrarCarritoBtn.addEventListener("click", cerrarCarrito);
+
+    cerrarCarritoBtn.addEventListener(
+        "click",
+        cerrarCarrito
+    );
+
 }
 
+
 if (overlay) {
-    overlay.addEventListener("click", cerrarCarrito);
+
+    overlay.addEventListener(
+        "click",
+        cerrarCarrito
+    );
+
 }
 
 
@@ -590,22 +874,36 @@ if (overlay) {
 // ======================================================
 
 const verProductos =
-    document.getElementById("verProductos");
+    document.getElementById(
+        "verProductos"
+    );
+
 
 if (verProductos) {
 
-    verProductos.addEventListener("click", () => {
+    verProductos.addEventListener(
+        "click",
+        () => {
 
-        cerrarCarrito();
+            cerrarCarrito();
 
-        const seccionProductos =
-            document.getElementById("productos");
 
-        if (seccionProductos) {
-            seccionProductos.scrollIntoView({ behavior: "smooth" });
+            const seccionProductos =
+                document.getElementById(
+                    "productos"
+                );
+
+
+            if (seccionProductos) {
+
+                seccionProductos.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
         }
-
-    });
+    );
 
 }
 
@@ -615,24 +913,41 @@ if (verProductos) {
 // ======================================================
 
 const finalizarCompra =
-    document.getElementById("finalizarCompra");
+    document.getElementById(
+        "finalizarCompra"
+    );
+
 
 if (finalizarCompra) {
 
-    finalizarCompra.addEventListener("click", () => {
+    finalizarCompra.addEventListener(
+        "click",
+        () => {
 
-        if (carrito.length === 0) {
-            mostrarToast("El carrito está vacío");
-            return;
+            if (carrito.length === 0) {
+
+                mostrarToast(
+                    "El carrito está vacío"
+                );
+
+                return;
+
+            }
+
+
+            cerrarCarrito();
+
+
+            if (modalCheckout) {
+
+                modalCheckout.classList.add(
+                    "activo"
+                );
+
+            }
+
         }
-
-        cerrarCarrito();
-
-        if (modalCheckout) {
-            modalCheckout.classList.add("activo");
-        }
-
-    });
+    );
 
 }
 
@@ -642,13 +957,27 @@ if (finalizarCompra) {
 // ======================================================
 
 const cerrarCheckout =
-    document.getElementById("cerrarCheckout");
+    document.getElementById(
+        "cerrarCheckout"
+    );
+
 
 if (cerrarCheckout) {
 
-    cerrarCheckout.addEventListener("click", () => {
-        modalCheckout.classList.remove("activo");
-    });
+    cerrarCheckout.addEventListener(
+        "click",
+        () => {
+
+            if (modalCheckout) {
+
+                modalCheckout.classList.remove(
+                    "activo"
+                );
+
+            }
+
+        }
+    );
 
 }
 
@@ -658,85 +987,208 @@ if (cerrarCheckout) {
 // ======================================================
 
 const enviarWhatsApp =
-    document.getElementById("enviarWhatsApp");
+    document.getElementById(
+        "enviarWhatsApp"
+    );
+
 
 if (enviarWhatsApp) {
-    enviarWhatsApp.addEventListener("click", enviarPedido);
+
+    enviarWhatsApp.addEventListener(
+        "click",
+        enviarPedido
+    );
+
 }
 
 
 function enviarPedido() {
 
     const metodoPago =
-        document.querySelector('input[name="pago"]:checked');
+        document.querySelector(
+            'input[name="pago"]:checked'
+        );
+
+
+    const nombreElement =
+        document.getElementById(
+            "nombre"
+        );
+
+
+    const direccionElement =
+        document.getElementById(
+            "direccion"
+        );
+
+
+    const notaElement =
+        document.getElementById(
+            "nota"
+        );
+
 
     const nombre =
-        document.getElementById("nombre").value.trim();
+        nombreElement
+            ? nombreElement.value.trim()
+            : "";
+
 
     const direccion =
-        document.getElementById("direccion").value.trim();
+        direccionElement
+            ? direccionElement.value.trim()
+            : "";
+
 
     const nota =
-        document.getElementById("nota").value.trim();
+        notaElement
+            ? notaElement.value.trim()
+            : "";
+
+
+    // ==================================================
+    // VALIDACIONES
+    // ==================================================
 
     if (!nombre) {
-        mostrarToast("Ingresá tu nombre.");
+
+        mostrarToast(
+            "Ingresá tu nombre."
+        );
+
         return;
     }
+
 
     if (!metodoPago) {
-        mostrarToast("Elegí un método de pago.");
+
+        mostrarToast(
+            "Elegí un método de pago."
+        );
+
         return;
     }
+
 
     if (NUMERO_WHATSAPP.includes("X")) {
-        mostrarToast("Configurá tu número de WhatsApp.");
+
+        mostrarToast(
+            "Configurá tu número de WhatsApp."
+        );
+
         return;
     }
 
-    let mensaje = "\uD83D\uDECD\uFE0F *NUEVO PEDIDO - BY SHEILA*\n\n";
 
-    mensaje += "\uD83D\uDC64 *Cliente:* " + nombre + "\n";
+    // ==================================================
+    // CREAR MENSAJE
+    // ==================================================
+
+    let mensaje =
+        "🛍️ *NUEVO PEDIDO - BY SHEILA*\n\n";
+
+
+    mensaje +=
+        "👤 *Cliente:* " +
+        nombre +
+        "\n";
+
 
     if (direccion) {
-        mensaje += "\uD83D\uDCCD *Dirección:* " + direccion + "\n";
+
+        mensaje +=
+            "📍 *Dirección:* " +
+            direccion +
+            "\n";
+
     }
 
-    mensaje += "\n*PRENDAS:*\n";
+
+    mensaje +=
+        "\n*PRENDAS:*\n";
+
+
+    // ==================================================
+    // PRODUCTOS
+    // ==================================================
 
     carrito.forEach(item => {
 
         const producto =
-            productos.find(p => p.id === item.id);
+            productos.find(
+                p => p.id === item.id
+            );
 
-        if (!producto) return;
+        if (!producto) {
+            return;
+        }
 
-        const subtotal = producto.precio * item.cantidad;
+
+        const subtotal =
+            producto.precio *
+            item.cantidad;
+
 
         mensaje +=
             "• " +
-            item.cantidad + "x " +
+            item.cantidad +
+            "x " +
             producto.nombre +
-            (item.color ? " (" + item.color + ")" : "") +
+            (
+                item.color
+                    ? " (" + item.color + ")"
+                    : ""
+            ) +
             " — " +
             formatoPrecio(subtotal) +
             "\n";
 
     });
 
-    mensaje +=
-        "\n\uD83D\uDCB0 *TOTAL: " +
-        formatoPrecio(calcularTotal()) + "*\n";
+
+    // ==================================================
+    // TOTAL
+    // ==================================================
 
     mensaje +=
-        "\uD83D\uDCB3 *MEDIO DE PAGO: " +
-        metodoPago.value + "*\n";
+        "\n💰 *TOTAL: " +
+        formatoPrecio(
+            calcularTotal()
+        ) +
+        "*\n";
+
+
+    // ==================================================
+    // MEDIO DE PAGO
+    // ==================================================
+
+    mensaje +=
+        "💳 *MEDIO DE PAGO: " +
+        metodoPago.value +
+        "*\n";
+
+
+    // ==================================================
+    // NOTA
+    // ==================================================
 
     if (nota) {
-        mensaje += "\n\uD83D\uDCDD *Nota:* " + nota + "\n";
+
+        mensaje +=
+            "\n📝 *Nota:* " +
+            nota +
+            "\n";
+
     }
 
-    mensaje += "\n\u00A1Hola! Quiero confirmar este pedido \uD83D\uDE0A";
+
+    mensaje +=
+        "\n¡Hola! Quiero confirmar este pedido 😊";
+
+
+    // ==================================================
+    // WHATSAPP
+    // ==================================================
 
     const url =
         "https://wa.me/" +
@@ -744,7 +1196,11 @@ function enviarPedido() {
         "?text=" +
         encodeURIComponent(mensaje);
 
-    window.open(url, "_blank");
+
+    window.open(
+        url,
+        "_blank"
+    );
 
 }
 
@@ -753,35 +1209,64 @@ function enviarPedido() {
 // MENÚ CELULAR
 // ======================================================
 
-const menuBtn = document.getElementById("menuBtn");
+const menuBtn =
+    document.getElementById(
+        "menuBtn"
+    );
+
 
 if (menuBtn) {
 
-    menuBtn.addEventListener("click", () => {
+    menuBtn.addEventListener(
+        "click",
+        () => {
 
-        const nav = document.getElementById("nav");
+            const nav =
+                document.getElementById(
+                    "nav"
+                );
 
-        if (nav) {
-            nav.classList.toggle("abierto");
+
+            if (nav) {
+
+                nav.classList.toggle(
+                    "abierto"
+                );
+
+            }
+
         }
-
-    });
+    );
 
 }
 
-document.querySelectorAll(".nav a").forEach(link => {
 
-    link.addEventListener("click", () => {
+document
+    .querySelectorAll(".nav a")
+    .forEach(link => {
 
-        const nav = document.getElementById("nav");
+        link.addEventListener(
+            "click",
+            () => {
 
-        if (nav) {
-            nav.classList.remove("abierto");
-        }
+                const nav =
+                    document.getElementById(
+                        "nav"
+                    );
+
+
+                if (nav) {
+
+                    nav.classList.remove(
+                        "abierto"
+                    );
+
+                }
+
+            }
+        );
 
     });
-
-});
 
 
 // ======================================================
@@ -790,17 +1275,36 @@ document.querySelectorAll(".nav a").forEach(link => {
 
 function mostrarToast(texto) {
 
-    if (!toast) return;
+    if (!toast) {
+        return;
+    }
 
-    toast.textContent = texto;
 
-    toast.classList.add("visible");
+    toast.textContent =
+        texto;
 
-    clearTimeout(window.toastTimer);
 
-    window.toastTimer = setTimeout(() => {
-        toast.classList.remove("visible");
-    }, 2500);
+    toast.classList.add(
+        "visible"
+    );
+
+
+    clearTimeout(
+        window.toastTimer
+    );
+
+
+    window.toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "visible"
+                );
+
+            },
+            2500
+        );
 
 }
 
