@@ -18,8 +18,7 @@ const productos = [
         precio: 20000,
         etiqueta: "NUEVO",
         imagen: "productos/calzones.jpeg",
-        talles: ["0","1","2", "3", "4", "5", "6"],
-        stock: 30
+        talles: ["0","1","2", "3", "4", "5", "6"]
     },
 
     {
@@ -29,8 +28,7 @@ const productos = [
         precio: 7000,
         etiqueta: "DESTACADO",
         imagen: "productos/medias2.jpeg",
-        talles: ["35", "36", "37", "38"],
-        stock: 30
+        talles: ["35", "36", "37", "38"]
     },
 
     {
@@ -59,8 +57,7 @@ const productos = [
         precio: 20000,
         etiqueta: "NUEVO",
         imagen: "productos/calzon.jpeg",
-        talles: ["0","1","2", "3", "4", "5", "6"],
-        stock: 30
+        talles: ["0","1","2", "3", "4", "5", "6"]
     },
 
     {
@@ -70,8 +67,7 @@ const productos = [
         precio: 6000,
         etiqueta: "NUEVO",
         imagen: "productos/medias.jpeg",
-        talles: ["35","36","37","38"],
-        stock: 30
+        talles: ["35","36","37","38"]
     },
 
     {
@@ -81,8 +77,7 @@ const productos = [
         precio: 6000,
         etiqueta: "NUEVO",
         imagen: "productos/mediasMD.jpeg",
-        talles: ["35","36","37","38","39","40"],
-        stock: 30
+        talles: ["35","36","37","38","39","40"]
     }
 
 ];
