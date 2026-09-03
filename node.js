@@ -13,29 +13,32 @@ const productos = [
 
     {
         id: 1,
-        nombre: "Calzones x docena",
-        categoria: "Ropa interior niños",
+        nombre: "Calzones x12",
+        categoria: "Ropa interior de niñas",
         precio: 20000,
-        etiqueta: "BEST SELLER",
-        imagen: "productos/calzones.jpeg"
+        etiqueta: "NUEVO",
+        imagen: "productos/calzones.jpeg",
+        talles: ["0","1","2","3","4","5","6"]
     },
 
     {
         id: 2,
-        nombre: "Medias x docena",
-        categoria: "Medias",
+        nombre: "Medias super balance x12",
+        categoria: "Medias de adultos",
         precio: 6000,
         etiqueta: "NUEVO",
-        imagen: "productos/medias.jpeg"
+        imagen: "productos/medias.jpeg",
+        talles: ["35","36","37","38"]
     },
 
     {
         id: 3,
-        nombre: "Toallas x unidad",
+        nombre: "Toallas x1",
         categoria: "Toallas",
         precio: 20000,
         etiqueta: "TRENDING",
         imagen: "productos/toallas.jpeg",
+        talles: ["grande","mediana","chica"],
         colores: [
             {
                 nombre: "Cremita",
@@ -50,20 +53,32 @@ const productos = [
 
     {
         id: 9,
-        nombre: "Medias 2 x docena",
-        categoria: "Medias",
+        nombre: "Medias MD x12",
+        categoria: "Medias de adultos",
         precio: 7000,
         etiqueta: "NUEVO",
-        imagen: "productos/medias2.jpeg"
+        imagen: "productos/medias2.jpeg",
+        talles: ["39","40","41","42","43","44","45"]
     },
 
     {
         id: 10,
-        nombre: "Calzon x docena",
-        categoria: "Ropa interior niños",
+        nombre: "Calzones oumo de ñiños x12",
+        categoria: "Ropa interior de niños",
         precio: 20000,
-        etiqueta: "BEST SELLER",
-        imagen: "productos/calzon.jpeg"
+        etiqueta: "NUEVO",
+        imagen: "productos/calzon.jpeg",
+        talles: ["0","1","2","3","4","5","6"]
+    },
+
+    {
+        id: 11,
+        nombre: "Medias MD x12",
+        categoria: "Medias",
+        precio: 7000,
+        etiqueta: "NUEVO",
+        imagen: "productos/mediasMD.jpeg",
+        talles: ["35","36","37","38"]
     }
 
 ];
@@ -128,6 +143,417 @@ function formatoPrecio(precio) {
 
 
 // ======================================================
+// CREAR MODAL DE DETALLE
+// ======================================================
+
+function crearModalDetalle() {
+
+    if (document.getElementById("modalDetalle")) {
+        return;
+    }
+
+    const modal = document.createElement("div");
+
+    modal.id = "modalDetalle";
+
+    modal.className = "modal-detalle";
+
+    modal.innerHTML = `
+
+        <div class="modal-detalle-contenido">
+
+            <button
+                type="button"
+                class="cerrar-detalle"
+                onclick="cerrarDetalleProducto()"
+            >
+                ×
+            </button>
+
+            <div id="detalleProducto"></div>
+
+        </div>
+
+    `;
+
+    document.body.appendChild(modal);
+
+
+    // Cerrar tocando fuera del contenido
+
+    modal.addEventListener(
+        "click",
+        function(event) {
+
+            if (event.target === modal) {
+
+                cerrarDetalleProducto();
+
+            }
+
+        }
+    );
+
+}
+
+
+// ======================================================
+// MOSTRAR DETALLE DEL PRODUCTO
+// ======================================================
+
+function mostrarDetalleProducto(id) {
+
+    const producto =
+        productos.find(
+            p => p.id === id
+        );
+
+    if (!producto) {
+        return;
+    }
+
+
+    crearModalDetalle();
+
+
+    const modal =
+        document.getElementById(
+            "modalDetalle"
+        );
+
+    const detalle =
+        document.getElementById(
+            "detalleProducto"
+        );
+
+
+    if (!modal || !detalle) {
+        return;
+    }
+
+
+    // ==================================================
+    // COLOR
+    // ==================================================
+
+    const selectorColor =
+        producto.colores
+            ? `
+
+                <div class="detalle-opcion">
+
+                    <h4>
+                        Color
+                    </h4>
+
+                    <div class="selector-colores">
+
+                        ${producto.colores.map((c, i) => `
+
+                            <button
+                                type="button"
+                                class="btn-color ${i === 0 ? "activo" : ""}"
+                                onclick="cambiarColorDetalle(
+                                    ${producto.id},
+                                    ${i},
+                                    this
+                                )"
+                            >
+                                ${c.nombre}
+                            </button>
+
+                        `).join("")}
+
+                    </div>
+
+                </div>
+
+              `
+            : "";
+
+
+    // ==================================================
+    // TALLE
+    // ==================================================
+
+    const selectorTalle =
+        producto.talles
+            ? `
+
+                <div class="detalle-opcion">
+
+                    <h4>
+                        Talle
+                    </h4>
+
+                    <div class="selector-talles">
+
+                        ${producto.talles.map((t, i) => `
+
+                            <button
+                                type="button"
+                                class="btn-talle ${i === 0 ? "activo" : ""}"
+                                onclick="cambiarTalleDetalle(
+                                    ${producto.id},
+                                    ${i},
+                                    this
+                                )"
+                            >
+                                ${t}
+                            </button>
+
+                        `).join("")}
+
+                    </div>
+
+                </div>
+
+              `
+            : "";
+
+
+    // ==================================================
+    // HTML DEL DETALLE
+    // ==================================================
+
+    detalle.innerHTML = `
+
+        <div class="detalle-grid">
+
+            <div class="detalle-imagen">
+
+                <img
+                    id="detalle-img-${producto.id}"
+                    src="${producto.imagen}"
+                    alt="${producto.nombre}"
+                >
+
+            </div>
+
+
+            <div class="detalle-info">
+
+                <span class="detalle-etiqueta">
+                    ${producto.etiqueta}
+                </span>
+
+                <h2>
+                    ${producto.nombre}
+                </h2>
+
+                <p class="detalle-categoria">
+                    ${producto.categoria}
+                </p>
+
+                <strong class="detalle-precio">
+                    ${formatoPrecio(producto.precio)}
+                </strong>
+
+                ${selectorColor}
+
+                ${selectorTalle}
+
+                <button
+                    type="button"
+                    class="agregar detalle-agregar"
+                    onclick="agregarCarritoDesdeDetalle(${producto.id})"
+                >
+                    + AGREGAR AL CARRITO
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    // ==================================================
+    // RESETEAR SELECCIONES
+    // ==================================================
+
+    if (producto.colores) {
+
+        producto.colorSeleccionado =
+            producto.colores[0].nombre;
+
+    }
+
+    if (producto.talles) {
+
+        producto.talleSeleccionado =
+            producto.talles[0];
+
+    }
+
+
+    // ==================================================
+    // MOSTRAR MODAL
+    // ==================================================
+
+    modal.classList.add("activo");
+
+    document.body.classList.add("modal-abierto");
+
+}
+
+
+// ======================================================
+// CERRAR DETALLE
+// ======================================================
+
+function cerrarDetalleProducto() {
+
+    const modal =
+        document.getElementById(
+            "modalDetalle"
+        );
+
+    if (modal) {
+
+        modal.classList.remove(
+            "activo"
+        );
+
+    }
+
+    document.body.classList.remove(
+        "modal-abierto"
+    );
+
+}
+
+
+// ======================================================
+// CAMBIAR COLOR DESDE EL DETALLE
+// ======================================================
+
+function cambiarColorDetalle(
+    productoId,
+    colorIndex,
+    boton
+) {
+
+    const producto =
+        productos.find(
+            p => p.id === productoId
+        );
+
+    if (!producto || !producto.colores) {
+        return;
+    }
+
+
+    producto.colorSeleccionado =
+        producto.colores[colorIndex].nombre;
+
+
+    const imagen =
+        document.getElementById(
+            "detalle-img-" + productoId
+        );
+
+
+    if (imagen) {
+
+        imagen.src =
+            producto.colores[colorIndex].imagen;
+
+    }
+
+
+    const contenedor =
+        boton.closest(
+            ".selector-colores"
+        );
+
+
+    if (contenedor) {
+
+        contenedor
+            .querySelectorAll(".btn-color")
+            .forEach(b => {
+
+                b.classList.remove(
+                    "activo"
+                );
+
+            });
+
+        boton.classList.add(
+            "activo"
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// CAMBIAR TALLE DESDE EL DETALLE
+// ======================================================
+
+function cambiarTalleDetalle(
+    productoId,
+    talleIndex,
+    boton
+) {
+
+    const producto =
+        productos.find(
+            p => p.id === productoId
+        );
+
+    if (!producto || !producto.talles) {
+        return;
+    }
+
+
+    producto.talleSeleccionado =
+        producto.talles[talleIndex];
+
+
+    const contenedor =
+        boton.closest(
+            ".selector-talles"
+        );
+
+
+    if (contenedor) {
+
+        contenedor
+            .querySelectorAll(".btn-talle")
+            .forEach(b => {
+
+                b.classList.remove(
+                    "activo"
+                );
+
+            });
+
+        boton.classList.add(
+            "activo"
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// AGREGAR DESDE DETALLE
+// ======================================================
+
+function agregarCarritoDesdeDetalle(id) {
+
+    agregarCarrito(id);
+
+    cerrarDetalleProducto();
+
+}
+
+
+// ======================================================
 // MOSTRAR PRODUCTOS
 // ======================================================
 
@@ -144,35 +570,104 @@ function mostrarProductos() {
 
     productosGrid.innerHTML = "";
 
+
     productos.forEach(producto => {
 
         const tarjeta =
             document.createElement("article");
 
-        tarjeta.classList.add("producto");
+        tarjeta.classList.add(
+            "producto"
+        );
+
+
+        // ==================================================
+        // CLICK EN PRODUCTO
+        // ==================================================
+
+        tarjeta.addEventListener(
+            "click",
+            function(event) {
+
+                // Si se tocó un botón,
+                // no abrir el detalle.
+
+                if (
+                    event.target.closest("button")
+                ) {
+                    return;
+                }
+
+                mostrarDetalleProducto(
+                    producto.id
+                );
+
+            }
+        );
 
 
         // ==================================================
         // SELECTOR DE COLOR
         // ==================================================
 
-        const selectorColor = producto.colores
-            ? `<div class="selector-colores">
+        const selectorColor =
+            producto.colores
+                ? `
 
-                ${producto.colores.map((c, i) => `
+                    <div class="selector-colores">
 
-                    <button
-                        type="button"
-                        class="btn-color ${i === 0 ? "activo" : ""}"
-                        onclick="cambiarColor(${producto.id}, ${i}, this)"
-                    >
-                        ${c.nombre}
-                    </button>
+                        ${producto.colores.map((c, i) => `
 
-                `).join("")}
+                            <button
+                                type="button"
+                                class="btn-color ${i === 0 ? "activo" : ""}"
+                                onclick="cambiarColor(
+                                    ${producto.id},
+                                    ${i},
+                                    this
+                                )"
+                            >
+                                ${c.nombre}
+                            </button>
 
-               </div>`
-            : "";
+                        `).join("")}
+
+                    </div>
+
+                  `
+                : "";
+
+
+        // ==================================================
+        // SELECTOR DE TALLE
+        // ==================================================
+
+        const selectorTalle =
+            producto.talles
+                ? `
+
+                    <div class="selector-talles">
+
+                        ${producto.talles.map((t, i) => `
+
+                            <button
+                                type="button"
+                                class="btn-talle ${i === 0 ? "activo" : ""}"
+                                onclick="cambiarTalle(
+                                    ${producto.id},
+                                    ${i},
+                                    this
+                                )"
+                            >
+                                ${t}
+                            </button>
+
+                        `).join("")}
+
+                    </div>
+
+                  `
+                : "";
 
 
         // ==================================================
@@ -195,6 +690,7 @@ function mostrarProductos() {
 
             </div>
 
+
             <div class="producto-info">
 
                 <h3>
@@ -206,6 +702,8 @@ function mostrarProductos() {
                 </p>
 
                 ${selectorColor}
+
+                ${selectorTalle}
 
                 <strong class="precio">
                     ${formatoPrecio(producto.precio)}
@@ -223,7 +721,10 @@ function mostrarProductos() {
 
         `;
 
-        productosGrid.appendChild(tarjeta);
+
+        productosGrid.appendChild(
+            tarjeta
+        );
 
     });
 
@@ -234,10 +735,16 @@ function mostrarProductos() {
 // CAMBIAR COLOR
 // ======================================================
 
-function cambiarColor(productoId, colorIndex, boton) {
+function cambiarColor(
+    productoId,
+    colorIndex,
+    boton
+) {
 
     const producto =
-        productos.find(p => p.id === productoId);
+        productos.find(
+            p => p.id === productoId
+        );
 
     if (!producto || !producto.colores) {
         return;
@@ -253,6 +760,7 @@ function cambiarColor(productoId, colorIndex, boton) {
             "img-producto-" + productoId
         );
 
+
     if (img) {
 
         img.src =
@@ -262,7 +770,7 @@ function cambiarColor(productoId, colorIndex, boton) {
 
 
     // ==================================================
-    // GUARDAR COLOR SELECCIONADO
+    // GUARDAR COLOR
     // ==================================================
 
     producto.colorSeleccionado =
@@ -270,11 +778,14 @@ function cambiarColor(productoId, colorIndex, boton) {
 
 
     // ==================================================
-    // MARCAR BOTÓN ACTIVO
+    // MARCAR BOTÓN
     // ==================================================
 
     const contenedor =
-        boton.closest(".selector-colores");
+        boton.closest(
+            ".selector-colores"
+        );
+
 
     if (contenedor) {
 
@@ -282,11 +793,66 @@ function cambiarColor(productoId, colorIndex, boton) {
             .querySelectorAll(".btn-color")
             .forEach(b => {
 
-                b.classList.remove("activo");
+                b.classList.remove(
+                    "activo"
+                );
 
             });
 
-        boton.classList.add("activo");
+        boton.classList.add(
+            "activo"
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// CAMBIAR TALLE
+// ======================================================
+
+function cambiarTalle(
+    productoId,
+    talleIndex,
+    boton
+) {
+
+    const producto =
+        productos.find(
+            p => p.id === productoId
+        );
+
+    if (!producto || !producto.talles) {
+        return;
+    }
+
+
+    producto.talleSeleccionado =
+        producto.talles[talleIndex];
+
+
+    const contenedor =
+        boton.closest(
+            ".selector-talles"
+        );
+
+
+    if (contenedor) {
+
+        contenedor
+            .querySelectorAll(".btn-talle")
+            .forEach(b => {
+
+                b.classList.remove(
+                    "activo"
+                );
+
+            });
+
+        boton.classList.add(
+            "activo"
+        );
 
     }
 
@@ -300,7 +866,9 @@ function cambiarColor(productoId, colorIndex, boton) {
 function agregarCarrito(id) {
 
     const producto =
-        productos.find(p => p.id === id);
+        productos.find(
+            p => p.id === id
+        );
 
     if (!producto) {
         return;
@@ -311,21 +879,38 @@ function agregarCarrito(id) {
     // COLOR
     // ==================================================
 
-    const colorElegido = producto.colores
-        ? (
-            producto.colorSeleccionado ||
-            producto.colores[0].nombre
-        )
-        : null;
+    const colorElegido =
+        producto.colores
+            ? (
+                producto.colorSeleccionado ||
+                producto.colores[0].nombre
+            )
+            : null;
+
+
+    // ==================================================
+    // TALLE
+    // ==================================================
+
+    const talleElegido =
+        producto.talles
+            ? (
+                producto.talleSeleccionado ||
+                producto.talles[0]
+            )
+            : null;
 
 
     // ==================================================
     // CLAVE ÚNICA
     // ==================================================
 
-    const clave = colorElegido
-        ? id + "-" + colorElegido
-        : String(id);
+    const clave =
+        id +
+        "-" +
+        (colorElegido || "sin-color") +
+        "-" +
+        (talleElegido || "sin-talle");
 
 
     // ==================================================
@@ -334,12 +919,14 @@ function agregarCarrito(id) {
 
     const productoExistente =
         carrito.find(
-            item => String(item.clave) === String(clave)
+            item =>
+                String(item.clave) ===
+                String(clave)
         );
 
 
     // ==================================================
-    // SI YA EXISTE → SUMAR 1
+    // SI YA EXISTE
     // ==================================================
 
     if (productoExistente) {
@@ -350,7 +937,7 @@ function agregarCarrito(id) {
 
 
     // ==================================================
-    // SI NO EXISTE → AGREGAR CON CANTIDAD 1
+    // SI NO EXISTE
     // ==================================================
 
     else {
@@ -362,6 +949,8 @@ function agregarCarrito(id) {
             id: id,
 
             color: colorElegido,
+
+            talle: talleElegido,
 
             cantidad: 1
 
@@ -389,47 +978,49 @@ function agregarCarrito(id) {
 // CAMBIAR CANTIDAD
 // ======================================================
 
-function cambiarCantidad(clave, cambio) {
-
-    // Buscar el producto usando la clave
-    // como texto para evitar problemas
-    // entre números y strings.
+function cambiarCantidad(
+    clave,
+    cambio
+) {
 
     const item =
         carrito.find(
-            i => String(i.clave) === String(clave)
+            i =>
+                String(i.clave) ===
+                String(clave)
         );
 
 
-    // Si no existe, salir
     if (!item) {
         return;
     }
 
 
     // ==================================================
-    // SUMAR O RESTAR
+    // CAMBIAR
     // ==================================================
 
     item.cantidad += cambio;
 
 
     // ==================================================
-    // SI LLEGA A 0 → ELIMINAR
+    // ELIMINAR SI LLEGA A 0
     // ==================================================
 
     if (item.cantidad <= 0) {
 
         carrito =
             carrito.filter(
-                i => String(i.clave) !== String(clave)
+                i =>
+                    String(i.clave) !==
+                    String(clave)
             );
 
     }
 
 
     // ==================================================
-    // GUARDAR Y ACTUALIZAR
+    // ACTUALIZAR
     // ==================================================
 
     guardarCarrito();
@@ -448,7 +1039,8 @@ function eliminarProducto(clave) {
     carrito =
         carrito.filter(
             item =>
-                String(item.clave) !== String(clave)
+                String(item.clave) !==
+                String(clave)
         );
 
 
@@ -482,7 +1074,8 @@ function calcularTotal() {
             }
 
             return total +
-                producto.precio * item.cantidad;
+                producto.precio *
+                item.cantidad;
 
         },
         0
@@ -522,14 +1115,14 @@ function mostrarCarrito() {
 
 
     // ==================================================
-    // LIMPIAR CARRITO
+    // LIMPIAR
     // ==================================================
 
     itemsCarrito.innerHTML = "";
 
 
     // ==================================================
-    // ACTUALIZAR CANTIDAD Y TOTAL
+    // CANTIDAD Y TOTAL
     // ==================================================
 
     cantidadCarrito.textContent =
@@ -561,13 +1154,16 @@ function mostrarCarrito() {
                 ".carrito-footer"
             );
 
+
         if (footer) {
 
-            footer.style.display = "none";
+            footer.style.display =
+                "none";
 
         }
 
         return;
+
     }
 
 
@@ -589,15 +1185,17 @@ function mostrarCarrito() {
             ".carrito-footer"
         );
 
+
     if (footer) {
 
-        footer.style.display = "block";
+        footer.style.display =
+            "block";
 
     }
 
 
     // ==================================================
-    // MOSTRAR CADA PRODUCTO
+    // MOSTRAR PRODUCTOS
     // ==================================================
 
     carrito.forEach(item => {
@@ -607,13 +1205,14 @@ function mostrarCarrito() {
                 p => p.id === item.id
             );
 
+
         if (!producto) {
             return;
         }
 
 
         // ==================================================
-        // IMAGEN SEGÚN COLOR
+        // IMAGEN
         // ==================================================
 
         let imgSrc =
@@ -627,8 +1226,11 @@ function mostrarCarrito() {
 
             const colorData =
                 producto.colores.find(
-                    c => c.nombre === item.color
+                    c =>
+                        c.nombre ===
+                        item.color
                 );
+
 
             if (colorData) {
 
@@ -645,7 +1247,10 @@ function mostrarCarrito() {
         // ==================================================
 
         const elemento =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         elemento.classList.add(
             "item-carrito"
@@ -653,7 +1258,7 @@ function mostrarCarrito() {
 
 
         // ==================================================
-        // HTML DEL ITEM
+        // HTML
         // ==================================================
 
         elemento.innerHTML = `
@@ -662,6 +1267,7 @@ function mostrarCarrito() {
                 src="${imgSrc}"
                 alt="${producto.nombre}"
             >
+
 
             <div>
 
@@ -684,41 +1290,58 @@ function mostrarCarrito() {
                             : ""
                     }
 
+
+                    ${
+                        item.talle
+                            ? `
+                                <small
+                                    style="
+                                        font-weight:normal;
+                                        color:#888
+                                    "
+                                >
+                                    — Talle ${item.talle}
+                                </small>
+                              `
+                            : ""
+                    }
+
                 </h4>
 
+
                 <p>
-                    ${formatoPrecio(producto.precio)} c/u
+                    ${formatoPrecio(
+                        producto.precio
+                    )} c/u
                 </p>
 
 
-                <!-- =====================================
-                     CONTROLES DE CANTIDAD
-                     ===================================== -->
+                <!-- CONTROLES -->
 
                 <div class="controles">
 
-                    <!-- RESTAR 1 -->
-
                     <button
                         type="button"
-                        onclick="cambiarCantidad('${item.clave}', -1)"
+                        onclick="cambiarCantidad(
+                            '${item.clave}',
+                            -1
+                        )"
                     >
                         −
                     </button>
 
-
-                    <!-- CANTIDAD ACTUAL -->
 
                     <strong>
                         ${item.cantidad}
                     </strong>
 
 
-                    <!-- SUMAR 1 -->
-
                     <button
                         type="button"
-                        onclick="cambiarCantidad('${item.clave}', 1)"
+                        onclick="cambiarCantidad(
+                            '${item.clave}',
+                            1
+                        )"
                     >
                         +
                     </button>
@@ -726,14 +1349,14 @@ function mostrarCarrito() {
                 </div>
 
 
-                <!-- =====================================
-                     ELIMINAR PRODUCTO
-                     ===================================== -->
+                <!-- ELIMINAR -->
 
                 <button
                     type="button"
                     class="eliminar"
-                    onclick="eliminarProducto('${item.clave}')"
+                    onclick="eliminarProducto(
+                        '${item.clave}'
+                    )"
                 >
                     Eliminar
                 </button>
@@ -741,9 +1364,7 @@ function mostrarCarrito() {
             </div>
 
 
-            <!-- =========================================
-                 SUBTOTAL
-                 ========================================= -->
+            <!-- SUBTOTAL -->
 
             <strong>
 
@@ -831,6 +1452,7 @@ function cerrarCarrito() {
         );
 
     }
+
 
     if (overlay) {
 
@@ -1057,6 +1679,7 @@ function enviarPedido() {
         );
 
         return;
+
     }
 
 
@@ -1067,6 +1690,7 @@ function enviarPedido() {
         );
 
         return;
+
     }
 
 
@@ -1077,11 +1701,12 @@ function enviarPedido() {
         );
 
         return;
+
     }
 
 
     // ==================================================
-    // CREAR MENSAJE
+    // MENSAJE
     // ==================================================
 
     let mensaje =
@@ -1119,6 +1744,7 @@ function enviarPedido() {
                 p => p.id === item.id
             );
 
+
         if (!producto) {
             return;
         }
@@ -1133,12 +1759,29 @@ function enviarPedido() {
             "• " +
             item.cantidad +
             "x " +
-            producto.nombre +
-            (
-                item.color
-                    ? " (" + item.color + ")"
-                    : ""
-            ) +
+            producto.nombre;
+
+
+        if (item.color) {
+
+            mensaje +=
+                " (" +
+                item.color +
+                ")";
+
+        }
+
+
+        if (item.talle) {
+
+            mensaje +=
+                " - Talle " +
+                item.talle;
+
+        }
+
+
+        mensaje +=
             " — " +
             formatoPrecio(subtotal) +
             "\n";
@@ -1310,8 +1953,28 @@ function mostrarToast(texto) {
 
 
 // ======================================================
+// CERRAR MODAL CON ESC
+// ======================================================
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            cerrarDetalleProducto();
+
+        }
+
+    }
+);
+
+
+// ======================================================
 // INICIAR PÁGINA
 // ======================================================
+
+crearModalDetalle();
 
 mostrarProductos();
 

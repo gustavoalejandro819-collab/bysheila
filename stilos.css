@@ -1501,3 +1501,61 @@ footer strong {
     color: #8c4e65;
 
 }
+/* ================= SELECTOR DE TALLES ================= */
+
+.selector-talles {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin: 8px 0;
+
+}
+
+
+.btn-talle {
+
+    min-width: 34px;
+
+    padding: 6px 9px;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    border: 1.5px solid #ddd0d6;
+
+    background: white;
+
+    cursor: pointer;
+
+    border-radius: 20px;
+
+    transition: 0.2s;
+
+    color: var(--gris);
+
+}
+
+
+.btn-talle:hover {
+
+    border-color: var(--rosa);
+
+    color: #8c4e65;
+
+}
+
+
+.btn-talle.activo {
+
+    background: var(--rosa-claro);
+
+    border-color: var(--rosa);
+
+    color: #8c4e65;
+
+}
