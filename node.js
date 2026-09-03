@@ -159,20 +159,6 @@ function crearModalDetalle() {
 
     modal.innerHTML = `
 
-        <div class="modal-detalle-contenido">
-
-            <button
-                type="button"
-                class="cerrar-detalle"
-                onclick="cerrarDetalleProducto()"
-            >
-                ×
-            </button>
-
-            <div id="detalleProducto"></div>
-
-        </div>
-
     `;
 
     document.body.appendChild(modal);
