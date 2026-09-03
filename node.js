@@ -33,12 +33,11 @@ const productos = [
 
     {
         id: 3,
-        nombre: "Toallas x1",
+        nombre: "Set de toallas x3",
         categoria: "Toallas",
         precio: 20000,
         etiqueta: "TRENDING",
         imagen: "productos/toallas.jpeg",
-        talles: ["grande","mediana","chica"],
         colores: [
             {
                 nombre: "Cremita",
