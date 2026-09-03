@@ -2,79 +2,54 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>By Sheila | Tienda de ropa</title>
 
-    <!-- CSS -->
     <link rel="stylesheet" href="stilos.css">
-
 </head>
 
-
 <body>
-
 
     <!-- ================= HEADER ================= -->
 
     <header class="header">
 
-        <!-- LOGO IMAGEN -->
         <a href="#inicio" class="logo">
-            <img
-                src="logo/logobysheila.jpg"
-                alt="By Sheila"
-                class="logo-img"
-            >
+            <img src="logo/logobysheila.jpg" alt="By Sheila">
         </a>
-
 
         <nav class="nav" id="nav">
 
-            <a href="#inicio">
-                Inicio
-            </a>
-
-            <a href="#productos">
-                Productos
-            </a>
+            <a href="#inicio">Inicio</a>
+            <a href="#productos">Productos</a>
 
             <a
                 href="https://www.instagram.com/agustina0.99/"
                 target="_blank"
+                rel="noopener noreferrer"
             >
                 Instagram
             </a>
 
-            <a href="mailto:gonzalezsheilaagustina@gmail.com" class="contacto-mail">
-    📧 consultas
+            <a href="mailto:gonzalezsheilaagustina@gmail.com">
+                📧 Consultas
             </a>
 
         </nav>
 
-
-        <!-- CARRITO -->
-
         <button
+            type="button"
             class="carrito-btn"
             id="abrirCarrito"
         >
-
-            🛍️
-
-            <span id="cantidadCarrito">
-                0
-            </span>
-
+            🛒
+            <span id="cantidadCarrito">0</span>
         </button>
 
-
-        <!-- MENU CELULAR -->
-
         <button
+            type="button"
             class="menu-btn"
             id="menuBtn"
         >
@@ -84,282 +59,204 @@
     </header>
 
 
+    <!-- ================= INICIO ================= -->
 
-    <!-- ================= CONTENIDO ================= -->
+    <section class="hero" id="inicio">
 
-    <main>
+        <div class="hero-contenido">
 
-        <!-- ================= INICIO ================= -->
+            <p class="etiqueta">
+                ✦ NUEVA COLECCIÓN ✦
+            </p>
 
-        <section
-            class="hero"
-            id="inicio"
-        >
+            <h1>
+                Encontrá tu estilo
+                <span>en By Sheila.</span>
+            </h1>
 
-            <div class="hero-text">
+            <p>
+                Prendas cómodas, lindas y pensadas para vos.
+            </p>
 
+            <a href="#productos" class="boton">
+                VER PRODUCTOS
+            </a>
 
-                <p class="subtitulo">
-                    ✦ NUEVA COLECCIÓN ✦
-                </p>
+        </div>
 
+        <div class="hero-decoracion">
+            <div class="circulo circulo-1"></div>
+            <div class="circulo circulo-2"></div>
 
-                <h1>
-
-                    Ropa que se siente
-
-                    <span>
-                        como vos.
-                    </span>
-
-                </h1>
-
-
-                <p class="descripcion">
-
-                    Prendas cómodas, femeninas
-                    y con ese toque especial
-                    que queda lindo con todo.
-
-                </p>
-
-
-                <a
-                    href="#productos"
-                    class="boton"
-                >
-                    VER COLECCIÓN
-                </a>
-
-
+            <div class="tarjeta-hero">
+                <small>NEW</small>
+                <strong>BY</strong>
+                <span>SHEILA</span>
             </div>
+        </div>
+
+    </section>
 
 
+    <!-- ================= PRODUCTOS ================= -->
 
-            <!-- DISEÑO DEL HERO -->
+    <main id="productos">
 
-            <div class="hero-diseño">
+        <section class="catalogo">
 
-                <div class="circulo rosa"></div>
-
-                <div class="circulo lila"></div>
-
-
-                <div class="tarjeta">
-
-                    <small>
-                        NEW
-                    </small>
-
-
-                    <strong>
-                        BY
-                    </strong>
-
-
-                    <p>
-                        SHEILA
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- ================= PRODUCTOS ================= -->
-
-        <section
-            class="productos"
-            id="productos"
-        >
-
-
-            <div class="titulo-seccion">
-
+            <div class="titulo">
 
                 <div>
-
-                    <p class="subtitulo">
-                        PARA VOS
+                    <p class="etiqueta">
+                        NUESTRA TIENDA
                     </p>
 
-
                     <h2>
-                        Productos destacados
+                        Productos
                     </h2>
-
                 </div>
 
-
                 <p>
-
-                    Elegí tus prendas favoritas
-                    y agregalas al carrito.
-
+                    Elegí tu prenda favorita.
                 </p>
 
             </div>
 
 
+            <!-- BUSCADOR -->
+
+            <div class="busqueda">
+
+                <input
+                    type="text"
+                    id="buscador"
+                    placeholder="🔎 Buscar productos..."
+                >
+
+            </div>
+
+
+            <!-- CATEGORÍAS -->
+
+            <div
+                class="categorias"
+                id="categorias"
+            >
+
+                <button
+                    type="button"
+                    class="categoria activa"
+                    data-categoria="Todos"
+                >
+                    Todos
+                </button>
+
+                <button
+                    type="button"
+                    class="categoria"
+                    data-categoria="Medias"
+                >
+                    Medias
+                </button>
+
+                <button
+                    type="button"
+                    class="categoria"
+                    data-categoria="Toallas"
+                >
+                    Toallas
+                </button>
+
+                <button
+                    type="button"
+                    class="categoria"
+                    data-categoria="Ropa interior niños"
+                >
+                    Ropa interior
+                </button>
+
+            </div>
+
+
+            <!-- GRID -->
 
             <div
                 class="productos-grid"
                 id="productosGrid"
-            >
-
-            </div>
-
+            ></div>
 
         </section>
-
-
-
-        <!-- ================= BENEFICIOS ================= -->
-
-        <section class="beneficios">
-
-
-            <div class="beneficio">
-
-                <span>
-                    ♡
-                </span>
-
-
-                <div>
-
-                    <strong>
-                        Compra fácil
-                    </strong>
-
-
-                    <p>
-                        Elegí tus prendas desde el celu.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="beneficio">
-
-                <span>
-                    ✦
-                </span>
-
-
-                <div>
-
-                    <strong>
-                        Atención por WhatsApp
-                    </strong>
-
-
-                    <p>
-                        Confirmamos tu pedido personalmente.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="beneficio">
-
-                <span>
-                    ✓
-                </span>
-
-
-                <div>
-
-                    <strong>
-                        Pago flexible
-                    </strong>
-
-
-                    <p>
-                        Efectivo o Mercado Pago.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- ================= NOSOTROS ================= -->
-
-        <section
-            class="nosotros"
-            id="nosotros"
-        >
-
-
-            <div>
-
-
-                <p class="subtitulo">
-                    BY SHEILA
-                </p>
-
-
-                <h2>
-
-                    Tu estilo,
-
-                    <br>
-
-                    tus reglas.
-
-                </h2>
-
-
-                <p>
-
-                    Una tienda pensada para encontrar
-                    outfits cómodos y lindos sin vueltas.
-
-                    <br><br>
-
-                    Agregá todo lo que quieras al carrito
-                    y mandanos tu pedido por WhatsApp.
-
-                </p>
-
-
-            </div>
-
-
-
-            <div class="frase">
-
-                "Lo lindo también
-                puede ser cómodo."
-
-            </div>
-
-
-        </section>
-
 
     </main>
 
 
+    <!-- ================= BENEFICIOS ================= -->
+
+    <section class="beneficios">
+
+        <div class="beneficio">
+            <span>🚚</span>
+
+            <div>
+                <strong>Compra fácil</strong>
+                <p>Elegí tus productos desde cualquier dispositivo.</p>
+            </div>
+        </div>
+
+        <div class="beneficio">
+            <span>💬</span>
+
+            <div>
+                <strong>Atención personalizada</strong>
+                <p>Confirmamos tu pedido por WhatsApp.</p>
+            </div>
+        </div>
+
+        <div class="beneficio">
+            <span>💳</span>
+
+            <div>
+                <strong>Pago flexible</strong>
+                <p>Efectivo o Mercado Pago.</p>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- ================= NOSOTROS ================= -->
+
+    <section class="nosotros">
+
+        <div>
+
+            <p class="etiqueta">
+                BY SHEILA
+            </p>
+
+            <h2>
+                Tu estilo,
+                <br>
+                tus reglas.
+            </h2>
+
+            <p>
+                Una tienda pensada para encontrar
+                prendas cómodas y lindas sin vueltas.
+            </p>
+
+        </div>
+
+        <div class="frase">
+            "Lo lindo también puede ser cómodo."
+        </div>
+
+    </section>
+
 
     <!-- ================= FOOTER ================= -->
 
-    <footer id="contacto">
-
+    <footer>
 
         <div>
 
@@ -367,21 +264,17 @@
                 BY <span>SHEILA</span>
             </strong>
 
-
             <p>
                 Moda & lifestyle
             </p>
 
         </div>
 
-
         <p>
             © 2026 By Sheila
         </p>
 
-
     </footer>
-
 
 
     <!-- ================= OVERLAY ================= -->
@@ -392,7 +285,6 @@
     ></div>
 
 
-
     <!-- ================= CARRITO ================= -->
 
     <aside
@@ -400,16 +292,13 @@
         id="carrito"
     >
 
-
         <div class="carrito-header">
-
 
             <div>
 
-                <p class="subtitulo">
+                <p class="etiqueta">
                     TU PEDIDO
                 </p>
-
 
                 <h2>
                     Carrito
@@ -417,9 +306,10 @@
 
             </div>
 
-
             <button
+                type="button"
                 id="cerrarCarrito"
+                class="cerrar"
             >
                 ×
             </button>
@@ -427,79 +317,82 @@
         </div>
 
 
-
-        <!-- PRODUCTOS DEL CARRITO -->
-
         <div
             id="itemsCarrito"
             class="items-carrito"
         ></div>
 
 
-
-        <!-- CARRITO VACÍO -->
-
         <div
             id="carritoVacio"
             class="carrito-vacio"
         >
 
-
-            <span>
-                🛍️
-            </span>
-
+            <span>🛒</span>
 
             <p>
                 Tu carrito está vacío.
             </p>
 
-
             <button
+                type="button"
                 id="verProductos"
             >
                 VER PRODUCTOS
             </button>
 
-
         </div>
 
 
-
-        <!-- FOOTER CARRITO -->
-
         <div class="carrito-footer">
 
-
             <div class="total">
-
 
                 <span>
                     Total
                 </span>
 
-
                 <strong id="totalCarrito">
                     $0
                 </strong>
 
-
             </div>
 
-
             <button
+                type="button"
                 class="boton boton-completo"
                 id="finalizarCompra"
             >
                 FINALIZAR PEDIDO
             </button>
 
-
         </div>
-
 
     </aside>
 
+
+    <!-- ================= MODAL PRODUCTO ================= -->
+
+    <div
+        class="modal"
+        id="modalProducto"
+    >
+
+        <div class="producto-detalle">
+
+            <button
+                type="button"
+                class="cerrar-modal"
+                id="cerrarProducto"
+            >
+                ×
+            </button>
+
+            <div id="detalleProducto"></div>
+
+        </div>
+
+    </div>
 
 
     <!-- ================= CHECKOUT ================= -->
@@ -509,46 +402,32 @@
         id="modalCheckout"
     >
 
-
         <div class="checkout">
 
-
             <button
+                type="button"
                 class="cerrar-modal"
                 id="cerrarCheckout"
             >
                 ×
             </button>
 
-
-            <p class="subtitulo">
+            <p class="etiqueta">
                 ÚLTIMO PASO
             </p>
 
-
             <h2>
-                ¿Cómo querés pagar?
+                Finalizar pedido
             </h2>
 
-
             <p class="texto-checkout">
-
-                Elegí tu método de pago y después
-                te enviaremos el pedido por WhatsApp.
-
+                Completá tus datos y elegí cómo querés pagar.
             </p>
 
 
-
-            <!-- ================= METODOS DE PAGO ================= -->
-
             <div class="metodos-pago">
 
-
-                <!-- EFECTIVO -->
-
                 <label class="metodo">
-
 
                     <input
                         type="radio"
@@ -556,34 +435,17 @@
                         value="Efectivo"
                     >
 
-
-                    <span class="icono">
-                        💵
-                    </span>
-
+                    <span>💵</span>
 
                     <div>
-
-                        <strong>
-                            Efectivo
-                        </strong>
-
-
-                        <small>
-                            Coordinamos el pago.
-                        </small>
-
+                        <strong>Efectivo</strong>
+                        <small>Coordinamos el pago.</small>
                     </div>
-
 
                 </label>
 
 
-
-                <!-- MERCADO PAGO -->
-
                 <label class="metodo">
-
 
                     <input
                         type="radio"
@@ -591,37 +453,19 @@
                         value="Mercado Pago"
                     >
 
-
-                    <span class="icono">
-                        💙
-                    </span>
-
+                    <span>💙</span>
 
                     <div>
-
-                        <strong>
-                            Mercado Pago
-                        </strong>
-
-
-                        <small>
-                            Te contactamos por WhatsApp.
-                        </small>
-
+                        <strong>Mercado Pago</strong>
+                        <small>Coordinamos por WhatsApp.</small>
                     </div>
 
-
                 </label>
-
 
             </div>
 
 
-
-            <!-- ================= DATOS CLIENTE ================= -->
-
             <div class="datos">
-
 
                 <input
                     type="text"
@@ -629,51 +473,31 @@
                     placeholder="Tu nombre"
                 >
 
-
                 <input
                     type="text"
                     id="direccion"
                     placeholder="Dirección / localidad"
                 >
 
-
                 <textarea
                     id="nota"
                     placeholder="Nota del pedido (opcional)"
                 ></textarea>
 
-
             </div>
 
 
-
-            <!-- ENVIAR -->
-
             <button
+                type="button"
                 class="boton boton-completo"
                 id="enviarWhatsApp"
             >
-
                 ENVIAR PEDIDO POR WHATSAPP
-
             </button>
-
-
-
-            <p class="aviso">
-
-                Mercado Pago en este ejemplo no cobra
-                automáticamente. La selección se envía
-                por WhatsApp para coordinar el pago.
-
-            </p>
-
 
         </div>
 
-
     </div>
-
 
 
     <!-- ================= TOAST ================= -->
@@ -684,11 +508,7 @@
     ></div>
 
 
-
-    <!-- ================= JAVASCRIPT ================= -->
-
-    <script src="node.js"></script>
-
+    <script src="script.js"></script>
 
 </body>
 
