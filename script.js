@@ -10,33 +10,22 @@ const NUMERO_WHATSAPP = "5491136335317";
 // ======================================================
 
 const productos = [
-
     {
         id: 1,
-        nombre: "Calzones x12",
-        categoria: "Ropa interior niños",
-        precio: 20000,
-        etiqueta: "NUEVO",
-        imagen: "productos/calzones.jpeg",
-        talles: ["0","1","2", "3", "4", "5", "6"]
-    },
-
-    {
-        id: 2,
         nombre: "medias MD x12 ",
         categoria: "Medias",
         precio: 7000,
-        etiqueta: "DESTACADO",
+        etiqueta: "OFERTA",
         imagen: "productos/medias2.jpeg",
         talles: ["35", "36", "37", "38"]
     },
 
     {
-        id: 3,
+        id: 2,
         nombre: "set toallones x3",
         categoria: "Toallas",
         precio: 20000,
-        etiqueta: "NUEVO",
+        etiqueta: "MÁS VENDIDO",
         imagen: "productos/toallas.jpeg",
         colores: [
             {
@@ -51,17 +40,7 @@ const productos = [
     },
 
     {
-        id: 4,
-        nombre: "boxer de niños x12",
-        categoria: "Ropa interior niños",
-        precio: 20000,
-        etiqueta: "NUEVO",
-        imagen: "productos/calzon.jpeg",
-        talles: ["0","1","2", "3", "4", "5", "6"]
-    },
-
-    {
-        id: 5,
+        id: 3,
         nombre: "Medias super balance x12",
         categoria: "Medias",
         precio: 6000,
@@ -71,14 +50,141 @@ const productos = [
     },
 
     {
-        id: 6,
+        id: 4,
         nombre: "Medias MD x12",
         categoria: "Medias",
         precio: 6000,
-        etiqueta: "NUEVO",
+        etiqueta: "OFERTA",
         imagen: "productos/mediasMD.jpeg",
         talles: ["35","36","37","38","39","40"]
-    }
+    },
+
+    {
+        id: 5,
+        nombre: "pijamas",
+        categoria: "pijamas",
+        precio: 20000,
+        etiqueta: "NUEVO",
+        imagen: "productos/pijama1.jpeg",
+        talles: ["85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],
+        colores: [
+            {
+                nombre: "café",
+                imagen: "productos/pijama3.jpeg"
+            },
+            {
+                nombre: "avellana",
+                imagen: "productos/pijama2.jpeg"
+            },
+            {
+                nombre: "Vainilla Floral",
+                imagen: "productos/pijama1.jpeg"
+            }
+        ]
+    },
+
+    {
+        id: 6,
+        nombre: "pijamas shorts",
+        categoria: "pijamas",
+        precio: 24000,
+        etiqueta: "NUEVO",
+        imagen: "productos/pijamashor0.jpeg",
+        talles: ["1","2","3","4"],
+        colores: [
+            {
+                nombre: "café",
+                imagen: "productos/pijamahort.jpeg"
+            },
+            {
+                nombre: "blanco",
+                imagen: "productos/pijamashort1.jpeg"
+            },
+            {
+                nombre: "cremita",
+                imagen: "productos/pijama2piezas2.jpeg"
+            }
+        ]
+    },
+
+    {
+        id: 7,
+        nombre: "pijamas de 2 piezas",
+        categoria: "pijamas",
+        precio: 25000,
+        etiqueta: "NUEVO",
+        imagen: "productos/pijama2piezas.jpeg",
+        talles: ["1","2","3","4"],
+        colores: [
+            {
+                nombre: "negro",
+                imagen: "productos/pijama2piezas.jpeg"
+            },
+            {
+                nombre: "azul",
+                imagen: "productos/pijama2piezas1.jpeg"
+            },
+            {
+                nombre: "cremita",
+                imagen: "productos/pijama2piezas2.jpeg"
+            }
+        ]
+    },
+
+    {
+        id: 8,
+        nombre: "pijamas de 4 piezas",
+        categoria: "pijamas",
+        precio: 25000,
+        etiqueta: "NUEVO",
+        imagen: "productos/conjunto.jpeg",
+        talles: ["1","2","3","4"],
+        colores: [
+            {
+                nombre: "rosa",
+                imagen: "productos/conjunto.jpeg"
+            },
+            {
+                nombre: "cremita",
+                imagen: "productos/conjunto1.jpeg"
+            },
+        ]
+    },
+    {
+        id: 9,
+        nombre: "pijamas cullotte",
+        categoria: "pijamas",
+        precio: 22000,
+        etiqueta: "NUEVO",
+        imagen: "productos/barato1.jpeg",
+        talles:["85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],
+        colores: [
+            {
+                nombre: "negro",
+                imagen: "productos/culotte.jpg"
+            },
+            {
+                nombre: "rojo",
+                imagen: "productos/culote1.jpg"
+            },
+            {
+                nombre: "gris",
+                imagen: "productos/grisculote.jpg"
+            },
+            {
+                nombre: "blanco",
+                imagen: "productos/blaconn1.jpg"
+            },
+            {
+                nombre: "verde y flores",
+                imagen: "productos/florcitas.jpg"
+            },
+            {
+                nombre: "celeste y flores",
+                imagen: "productos/celeste.jpg"
+            },
+        ]
+    },
 
 ];
 
