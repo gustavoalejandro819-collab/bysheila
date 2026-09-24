@@ -185,6 +185,36 @@ const productos = [
             },
         ]
     },
+    {
+        id: 10,
+        nombre: "remera vogue",
+        categoria: "remeras",
+        precio: 5500,
+        etiqueta: "NUEVO",
+        imagen: "productos/vogue.jpeg",
+        colores: [
+            {
+                nombre: "negro",
+                imagen: "productos/vogue.jpeg"
+            },
+            {
+                nombre: "lila",
+                imagen: "productos/vogue1.jpeg"
+            },
+            {
+                nombre: "blaco",
+                imagen: "productos/vogue2.jpeg"
+            },
+            {
+                nombre: "verde",
+                imagen: "productos/vogue3.jpeg"
+            },
+            {
+                nombre: "avellana",
+                imagen: "productos/vogue4.jpeg"
+            },
+        ]
+    },
 
 ];
 
