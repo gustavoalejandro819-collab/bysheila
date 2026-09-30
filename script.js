@@ -57,6 +57,41 @@ function mostrarToast(mensaje) {
     setTimeout(() => toast.classList.remove("activo"), 2500);
 }
 
+// Animación "push": el botón del carrito rebota al agregar un producto
+function animarCarrito() {
+    const btn = $("abrirCarrito");
+    btn.classList.remove("rebote");
+    void btn.offsetWidth; // reinicia la animación
+    btn.classList.add("rebote");
+    lanzarParticulas(btn);
+}
+
+// Partículas que salen disparadas desde el botón del carrito
+function lanzarParticulas(btn) {
+    const rect = btn.getBoundingClientRect();
+    const centroX = rect.left + rect.width / 2;
+    const centroY = rect.top + rect.height / 2;
+    const colores = ["#e91e63", "#ff80ab", "#ffd6e5", "#ead9ff", "#ffc107"];
+    const total = 100;
+
+    for (let i = 0; i < total; i++) {
+        const particula = document.createElement("span");
+        particula.className = "particula";
+
+        const angulo = (Math.PI * 2 * i) / total + Math.random() * 0.5;
+        const distancia = 50 + Math.random() * 50;
+
+        particula.style.left = centroX + "px";
+        particula.style.top = centroY + "px";
+        particula.style.background = colores[i % colores.length];
+        particula.style.setProperty("--dx", Math.cos(angulo) * distancia + "px");
+        particula.style.setProperty("--dy", Math.sin(angulo) * distancia + "px");
+
+        document.body.appendChild(particula);
+        setTimeout(() => particula.remove(), 800);
+    }
+}
+
 function generarOpcionesHTML(titulo, items, esColor = false) {
     if (!items || items.length === 0) return "";
     const selectorId = esColor ? "selectorColores" : "selectorTalles";
@@ -153,8 +188,8 @@ function abrirDetalle(id) {
 // ======================================================
 
 function marcarSeleccion(selector, condicion) {
-    document.querySelectorAll(`${selector} .talle`).forEach(btn => {
-        btn.classList.toggle("seleccionado", condicion(btn));
+    document.querySelectorAll(`${selector} .talle`).forEach((btn, i) => {
+        btn.classList.toggle("seleccionado", condicion(btn, i));
     });
 }
 
@@ -221,6 +256,7 @@ function agregarProductoDesdeDetalle() {
 
     actualizarCarrito();
     cerrarModalProducto();
+    animarCarrito();
     mostrarToast("Producto agregado al carrito");
 }
 

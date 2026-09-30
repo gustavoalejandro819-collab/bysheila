@@ -1222,3 +1222,187 @@ footer p {
 }
 
 }
+
+/* ======================================================
+   BOTÓN FLOTANTE INSTAGRAM
+====================================================== */
+
+.instagram-flotante {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 900;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 13px 18px;
+    border-radius: 50px;
+
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+
+    background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);
+    box-shadow: 0 6px 20px rgba(220, 39, 67, 0.4);
+
+    animation: pulso-ig 2.2s infinite;
+    transition: transform 0.2s;
+}
+
+.instagram-flotante:hover {
+    transform: scale(1.08);
+}
+
+.instagram-flotante:active {
+    transform: scale(0.92);
+}
+
+@keyframes pulso-ig {
+    0%   { box-shadow: 0 0 0 0 rgba(220, 39, 67, 0.55); }
+    70%  { box-shadow: 0 0 0 16px rgba(220, 39, 67, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(220, 39, 67, 0); }
+}
+
+/* ======================================================
+   ANIMACIONES PUSH
+====================================================== */
+
+/* Efecto "botón que se hunde" */
+.boton:active,
+.ver-producto:active,
+.categoria:active,
+.talle:active,
+.carrito-btn:active,
+.cantidad-selector button:active,
+.controles button:active,
+.carrito-vacio button:active {
+    transform: scale(0.93);
+}
+
+.boton,
+.ver-producto,
+.categoria,
+.talle,
+.carrito-btn,
+.cantidad-selector button,
+.controles button {
+    transition: transform 0.15s, background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+/* Talle / color al seleccionarlo */
+.talle.seleccionado {
+    animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+    0%   { transform: scale(0.85); }
+    60%  { transform: scale(1.12); }
+    100% { transform: scale(1); }
+}
+
+/* El contador del carrito salta al agregar */
+.carrito-btn.rebote {
+    animation: rebote 0.5s ease;
+}
+
+.carrito-btn.rebote span {
+    animation: pop 0.5s ease;
+}
+
+@keyframes rebote {
+    0%, 100% { transform: scale(1); }
+    25%      { transform: scale(1.25) rotate(-8deg); }
+    50%      { transform: scale(0.9) rotate(6deg); }
+    75%      { transform: scale(1.1); }
+}
+
+/* Las tarjetas aparecen de abajo hacia arriba */
+.producto-card {
+    animation: aparecer 0.5s ease both;
+}
+
+.producto-card:nth-child(2) { animation-delay: 0.05s; }
+.producto-card:nth-child(3) { animation-delay: 0.1s; }
+.producto-card:nth-child(4) { animation-delay: 0.15s; }
+.producto-card:nth-child(n+5) { animation-delay: 0.2s; }
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(25px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Modales con efecto pop */
+.modal.activo .producto-detalle,
+.modal.activo .checkout {
+    animation: entrada-modal 0.3s ease;
+}
+
+@keyframes entrada-modal {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Etiquetas de producto con latido suave */
+.etiqueta-producto {
+    animation: latido 2s infinite;
+}
+
+@keyframes latido {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+}
+
+/* Respeta a quienes desactivan animaciones en su dispositivo */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* En celular el botón de Instagram queda solo con el ícono */
+@media (max-width: 450px) {
+    .instagram-flotante span {
+        display: none;
+    }
+
+    .instagram-flotante {
+        padding: 14px;
+    }
+}
+
+/* ======================================================
+   PARTÍCULAS DEL CARRITO
+====================================================== */
+
+.particula {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+
+    pointer-events: none;
+    z-index: 1100;
+
+    transform: translate(-50%, -50%);
+    animation: particula 0.7s ease-out forwards;
+}
+
+@keyframes particula {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.2);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .particula {
+        display: none;
+    }
+}
